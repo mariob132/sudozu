@@ -250,25 +250,31 @@
 .editor-container .editor-canvas {
   flex: 1;
   min-width: 0;
-  overflow: auto;
+  overflow: visible;
   background: #f9fafb;
   padding: 1rem;
 }
 
 .editor-container .editor-right {
-  width: 320px;
-  min-width: 320px;
+  width: 420px;
+  min-width: 420px;
   flex-shrink: 0;
+  align-self: flex-start;
+  position: sticky;
+  top: 1rem;
+  max-height: calc(100vh - 2rem);
   background: #fff;
   border-left: 1px solid #e5e7eb;
   display: flex;
   flex-direction: column;
   overflow: hidden;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
 }
 
 .quick-edit-header {
-  padding: 1rem 1.25rem;
-  font-size: 0.95rem;
+  padding: 1.25rem 1.5rem;
+  font-size: 1.1rem;
   font-weight: 700;
   color: #111;
   border-bottom: 1px solid #e5e7eb;
@@ -281,8 +287,8 @@
 
 .quick-edit-tabs button {
   flex: 1;
-  padding: 0.6rem 1rem;
-  font-size: 0.85rem;
+  padding: 0.75rem 1rem;
+  font-size: 0.9rem;
   font-weight: 500;
   color: #6b7280;
   background: transparent;
@@ -310,12 +316,12 @@
 }
 
 .quick-edit-tab-content {
-  padding: 1rem 1.25rem;
+  padding: 1.25rem 1.5rem;
   padding-bottom: 1.5rem;
 }
 
 .quick-edit-section-label {
-  font-size: 0.8rem;
+  font-size: 0.875rem;
   font-weight: 600;
   color: #6b7280;
   text-transform: uppercase;
@@ -333,11 +339,17 @@
 }
 
 .quick-edit-tab-content .property-group {
-  margin-bottom: 1rem;
+  margin-bottom: 1.25rem;
+}
+
+.quick-edit-tab-content .property-group label {
+  font-size: 0.9rem;
 }
 
 .quick-edit-tab-content .property-input {
-  margin-top: 0.25rem;
+  margin-top: 0.35rem;
+  padding: 0.75rem 0.875rem;
+  font-size: 0.9rem;
 }
 
 .quick-edit-footer {
@@ -613,6 +625,7 @@
   width: 100%;
   padding: 1.5rem 2rem;
   gap: 2rem;
+  align-items: flex-start;
 }
 
 .editor-sidebar {
