@@ -200,7 +200,11 @@ function PromoPage({ themeId: themeIdProp, embedInEditor = false, content: conte
         role={onSectionClick ? 'button' : undefined}
       >
         <div className="promo-container promo-header-inner">
-          <a href="#" className="promo-logo" onClick={(e) => { if (onSectionClick) { e.preventDefault(); onSectionClick('menu'); } }}>{content.logoName || 'MiNegocio'}</a>
+          {(content.logoHref && content.logoHref.startsWith('/')) ? (
+            <Link to={content.logoHref} className="promo-logo" onClick={(e) => { if (onSectionClick) { e.preventDefault(); onSectionClick('menu'); } }}>{content.logoName || 'MiNegocio'}</Link>
+          ) : (
+            <a href={content.logoHref || '#'} className="promo-logo" onClick={(e) => { if (onSectionClick) { e.preventDefault(); onSectionClick('menu'); } }}>{content.logoName || 'MiNegocio'}</a>
+          )}
           <nav className={`promo-nav ${menuOpen ? 'promo-nav-open' : ''}`} onClick={(e) => e.stopPropagation()}>
             {(content.navItems || [
               { label: 'Nosotros', href: '#sobre-nosotros' },
@@ -209,9 +213,17 @@ function PromoPage({ themeId: themeIdProp, embedInEditor = false, content: conte
               { label: 'Testimonios', href: '#testimonios' },
               { label: 'Ubicación', href: '#ubicacion' },
               { label: 'Contáctanos', href: '#contacto', cta: true }
-            ]).map((item, i) => (
-              <a key={i} href={item.href || '#'} className={item.cta ? 'promo-nav-cta' : ''} onClick={(e) => { setMenuOpen(false); if (onSectionClick) e.preventDefault(); }}>{item.label}</a>
-            ))}
+            ]).map((item, i) => {
+              const href = item.href || '#'
+              const isInternal = href.startsWith('/')
+              const className = item.cta ? 'promo-nav-cta' : ''
+              const onClick = (e) => { setMenuOpen(false); if (onSectionClick) e.preventDefault(); }
+              return isInternal ? (
+                <Link key={i} to={href} className={className} onClick={onClick}>{item.label}</Link>
+              ) : (
+                <a key={i} href={href} className={className} onClick={onClick}>{item.label}</a>
+              )
+            })}
           </nav>
           <button
             type="button"
@@ -239,12 +251,24 @@ function PromoPage({ themeId: themeIdProp, embedInEditor = false, content: conte
                 {hero.description || 'Ofrecemos servicios profesionales adaptados a ti. Calidad, compromiso y resultados que marcan la diferencia.'}
               </p>
               <div className="promo-hero-actions">
-                <a href="#contacto" onClick={(e) => { scrollToContact(e); onSectionClick?.('hero'); }} className="promo-btn promo-btn-primary">
-                  {hero.ctaText || 'Contáctanos'}
-                </a>
-                <a href="#servicios" onClick={(e) => { scrollToServices(e); onSectionClick?.('hero'); }} className="promo-btn promo-btn-secondary">
-                  {hero.ctaSecondaryText || 'Ver servicios'}
-                </a>
+                {(hero.ctaHref && hero.ctaHref.startsWith('/')) ? (
+                  <Link to={hero.ctaHref} className="promo-btn promo-btn-primary" onClick={() => onSectionClick?.('hero')}>
+                    {hero.ctaText || 'Contáctanos'}
+                  </Link>
+                ) : (
+                  <a href={hero.ctaHref || '#contacto'} onClick={(e) => { scrollToContact(e); onSectionClick?.('hero'); }} className="promo-btn promo-btn-primary">
+                    {hero.ctaText || 'Contáctanos'}
+                  </a>
+                )}
+                {(hero.ctaSecondaryHref && hero.ctaSecondaryHref.startsWith('/')) ? (
+                  <Link to={hero.ctaSecondaryHref} className="promo-btn promo-btn-secondary" onClick={() => onSectionClick?.('hero')}>
+                    {hero.ctaSecondaryText || 'Ver servicios'}
+                  </Link>
+                ) : (
+                  <a href={hero.ctaSecondaryHref || '#servicios'} onClick={(e) => { scrollToServices(e); onSectionClick?.('hero'); }} className="promo-btn promo-btn-secondary">
+                    {hero.ctaSecondaryText || 'Ver servicios'}
+                  </a>
+                )}
               </div>
             </div>
             <div className="promo-hero-media">
@@ -422,9 +446,11 @@ function PromoPage({ themeId: themeIdProp, embedInEditor = false, content: conte
       <footer className="promo-footer" onClick={() => onSectionClick?.('footer')} style={{ ...footerStyle, ...(onSectionClick ? { cursor: 'pointer' } : {}) }} role={onSectionClick ? 'button' : undefined}>
         <div className="promo-container">
           <p>{content.footer?.text || `© ${new Date().getFullYear()} ${content.logoName || 'MiNegocio'}. Todos los derechos reservados.`}</p>
-          {!embedInEditor && (
+          {!embedInEditor && (content.footer?.secondaryLink ? (
+            <Link to={content.footer.secondaryLink.to} className="promo-footer-templates">{content.footer.secondaryLink.text}</Link>
+          ) : (
             <Link to="/promo" className="promo-footer-templates">Ver otros diseños</Link>
-          )}
+          ))}
         </div>
       </footer>
     </div>

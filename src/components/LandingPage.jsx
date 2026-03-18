@@ -1,148 +1,91 @@
-import { Link } from 'react-router-dom'
-import { useEffect, useRef } from 'react'
-import './LandingPage.css'
+import PromoPage from './PromoPage'
+import { DEFAULT_PROMO_CONTENT } from './PromoPage'
+
+const HOME_SERVICES = [
+  { icon: '🎨', title: 'Editor Visual', description: 'Edita tus templates de forma visual. Arrastra, mueve y personaliza elementos con facilidad.' },
+  { icon: '🖼️', title: 'Gestión de Imágenes', description: 'Cambia imágenes fácilmente, ajusta su tamaño y posición con solo unos clics.' },
+  { icon: '⚡', title: 'Rápido y Fácil', description: 'Crea tu página web en minutos sin necesidad de escribir código.' },
+  { icon: '🆓', title: 'Templates Gratis', description: 'Accede a una colección de templates gratuitos listos para personalizar.' },
+  { icon: '📱', title: 'Responsive', description: 'Tus páginas se verán perfectas en cualquier dispositivo, móvil o desktop.' },
+  { icon: '🚀', title: 'Publicación Rápida', description: 'Publica tu sitio web en minutos y compártelo con el mundo.' },
+]
+
+const HOME_PORTFOLIO = [
+  { id: 1, title: 'Restaurante', description: 'Template para restaurantes', image: 'https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=600&q=80' },
+  { id: 2, title: 'Agencia', description: 'Template para agencias creativas', image: 'https://images.unsplash.com/photo-1552664730-d307ca884978?w=600&q=80' },
+  { id: 3, title: 'Gimnasio', description: 'Template para fitness', image: 'https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=600&q=80' },
+  { id: 4, title: 'Inmobiliaria', description: 'Template para propiedades', image: 'https://images.unsplash.com/photo-1560518883-ce09059eeffa?w=600&q=80' },
+]
+
+const HOME_TESTIMONIALS = [
+  { name: 'María García', role: 'Emprendedora', text: 'Creé mi página en una tarde. El editor es muy intuitivo y los templates son profesionales.', rating: 5, avatar: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=100&h=100&fit=crop&crop=face' },
+  { name: 'Carlos López', role: 'Dueño de restaurante', text: 'Sin saber nada de diseño pude tener una web que me enorgullece. Totalmente recomendable.', rating: 5, avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100&h=100&fit=crop&crop=face' },
+  { name: 'Ana Martínez', role: 'Freelance', text: 'Los templates me ahorraron semanas de trabajo. Edité textos e imágenes y listo.', rating: 5, avatar: 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=100&h=100&fit=crop&crop=face' },
+]
+
+export const HOME_PROMO_CONTENT = {
+  ...DEFAULT_PROMO_CONTENT,
+  logoName: 'zudosu',
+  logoHref: '/',
+  navItems: [
+    { label: 'Nosotros', href: '#sobre-nosotros' },
+    { label: 'Servicios', href: '#servicios' },
+    { label: 'Portafolio', href: '#portafolio' },
+    { label: 'Testimonios', href: '#testimonios' },
+    { label: 'Ubicación', href: '#ubicacion' },
+    { label: 'Contáctanos', href: '#contacto', cta: true },
+  ].slice(0, -1).concat({ label: 'Iniciar Sesión', href: '/login', cta: true }),
+  colors: {
+    primary: '#2563eb',
+    primaryDark: '#1d4ed8',
+    bg: '#f8fafc',
+    bgAlt: '#f1f5f9',
+    card: '#ffffff',
+    text: '#1e293b',
+    textMuted: '#64748b',
+    border: '#e2e8f0',
+  },
+  hero: {
+    title: 'Crea tu Propia ',
+    highlightWord: 'Página Web',
+    titleEnd: ' en minutos',
+    description: 'Diseña y personaliza tu sitio web sin necesidad de conocimientos técnicos. Edita templates, cambia imágenes y crea algo único.',
+    ctaText: 'Comenzar Ahora',
+    ctaSecondaryText: 'Saber Más',
+    ctaHref: '/login',
+    ctaSecondaryHref: '#servicios',
+    imageUrl: 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=800&q=80',
+  },
+  about: {
+    title: '¿Por qué zudosu?',
+    subtitle: 'Todo lo que necesitas para tu web',
+    lead: 'zudosu te permite crear y personalizar tu página web o aplicación web de forma visual, sin escribir código.',
+    content: 'Elige un template profesional, edita textos e imágenes con el editor drag & drop, y publica en minutos. Ideal para negocios, portfolios y proyectos personales.',
+    values: [
+      { label: 'Sin código', text: 'Todo desde el navegador' },
+      { label: 'Templates listos', text: 'Solo personaliza y publica' },
+      { label: 'Rápido', text: 'Minutos, no semanas' },
+    ],
+    imageUrl: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=600&q=80',
+  },
+  services: HOME_SERVICES,
+  portfolio: HOME_PORTFOLIO,
+  testimonials: HOME_TESTIMONIALS,
+  location: {
+    address: '100% online\nAccede desde cualquier lugar',
+    hours: 'Cuando quieras\nSin horarios',
+    phone: '',
+    mapEmbedUrl: 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3037.497430507072!2d-3.703790323357885!3d40.41677535928266!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd42287e23931a75%3A0x2e34a2d2f0a3e3e3!2sPuerta%20del%20Sol%2C%20Madrid!5e0!3m2!1ses!2ses!4v1635000000000!5m2!1ses!2ses',
+  },
+  contact: { phone: '', email: 'hola@zudosu.com' },
+  footer: {
+    text: `© ${new Date().getFullYear()} zudosu. Todos los derechos reservados.`,
+    secondaryLink: { to: '/login', text: 'Iniciar Sesión' },
+  },
+}
 
 function LandingPage() {
-  const featureCardsRef = useRef([])
-
-  useEffect(() => {
-    // Smooth scroll behavior
-    const handleSmoothScroll = (e) => {
-      const href = e.target.getAttribute('href')
-      if (href && href.startsWith('#')) {
-        e.preventDefault()
-        const targetId = href.substring(1)
-        const targetElement = document.getElementById(targetId)
-        if (targetElement) {
-          targetElement.scrollIntoView({ behavior: 'smooth', block: 'start' })
-        }
-      }
-    }
-
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', handleSmoothScroll)
-    })
-
-    // Intersection Observer for fade-in animations
-    const observerOptions = {
-      threshold: 0.1,
-      rootMargin: '0px 0px -50px 0px'
-    }
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.style.opacity = '1'
-          entry.target.style.transform = 'translateY(0)'
-        }
-      })
-    }, observerOptions)
-
-    featureCardsRef.current.forEach(card => {
-      if (card) {
-        card.style.opacity = '0'
-        card.style.transform = 'translateY(30px)'
-        card.style.transition = 'opacity 0.6s ease, transform 0.6s ease'
-        observer.observe(card)
-      }
-    })
-
-    return () => {
-      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-        anchor.removeEventListener('click', handleSmoothScroll)
-      })
-      observer.disconnect()
-    }
-  }, [])
-
-  return (
-    <div className="landing-page">
-      <nav className="navbar">
-        <div className="nav-container">
-          <h1 className="logo">zudosu</h1>
-          <Link to="/login" className="btn-primary">Iniciar Sesión</Link>
-        </div>
-      </nav>
-
-      <section className="hero">
-        <div className="hero-background-image"></div>
-        <div className="hero-content">
-          <div className="hero-text">
-            <h1 className="hero-title">
-              Crea tu Propia <span className="highlight">Página Web</span> o <span className="highlight">Aplicación Web</span>
-            </h1>
-            <p className="hero-subtitle">
-              Diseña y personaliza tu sitio web sin necesidad de conocimientos técnicos. 
-              Edita templates, cambia imágenes y crea algo único en minutos.
-            </p>
-            <div className="hero-buttons">
-              <Link to="/login" className="btn-cta">Comenzar Ahora</Link>
-              <a href="#features" className="btn-secondary">Saber Más</a>
-            </div>
-          </div>
-          <div className="hero-image-container">
-            <img 
-              src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=800&q=80" 
-              alt="Código de programación" 
-              className="hero-image"
-            />
-          </div>
-        </div>
-      </section>
-
-      <section id="features" className="features">
-        <div className="container">
-          <h2 className="section-title">¿Por qué elegir zudosu?</h2>
-          <div className="features-grid">
-            <div className="feature-card" ref={el => featureCardsRef.current[0] = el}>
-              <div className="feature-icon">🎨</div>
-              <h3>Editor Visual</h3>
-              <p>Edita tus templates de forma visual. Arrastra, mueve y personaliza elementos con facilidad.</p>
-            </div>
-            <div className="feature-card" ref={el => featureCardsRef.current[1] = el}>
-              <div className="feature-icon">🖼️</div>
-              <h3>Gestión de Imágenes</h3>
-              <p>Cambia imágenes fácilmente, ajusta su tamaño y posición con solo unos clics.</p>
-            </div>
-            <div className="feature-card" ref={el => featureCardsRef.current[2] = el}>
-              <div className="feature-icon">⚡</div>
-              <h3>Rápido y Fácil</h3>
-              <p>Crea tu página web en minutos sin necesidad de escribir código.</p>
-            </div>
-            <div className="feature-card" ref={el => featureCardsRef.current[3] = el}>
-              <div className="feature-icon">🆓</div>
-              <h3>Templates Gratis</h3>
-              <p>Accede a una colección de templates gratuitos listos para personalizar.</p>
-            </div>
-            <div className="feature-card" ref={el => featureCardsRef.current[4] = el}>
-              <div className="feature-icon">📱</div>
-              <h3>Responsive</h3>
-              <p>Tus páginas se verán perfectas en cualquier dispositivo, móvil o desktop.</p>
-            </div>
-            <div className="feature-card" ref={el => featureCardsRef.current[5] = el}>
-              <div className="feature-icon">🚀</div>
-              <h3>Publicación Rápida</h3>
-              <p>Publica tu sitio web en minutos y compártelo con el mundo.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="cta-section">
-        <div className="container">
-          <h2>¿Listo para crear tu página web?</h2>
-          <p>Únete a miles de usuarios que ya están creando sus sitios web con zudosu</p>
-          <Link to="/login" className="btn-cta-large">Empezar Gratis</Link>
-        </div>
-      </section>
-
-      <footer className="footer">
-        <div className="container">
-          <p>&copy; 2024 zudosu. Todos los derechos reservados.</p>
-        </div>
-      </footer>
-    </div>
-  )
+  return <PromoPage themeId="teal" content={HOME_PROMO_CONTENT} />
 }
 
 export default LandingPage
