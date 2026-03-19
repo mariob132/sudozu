@@ -92,6 +92,7 @@ function PromoPage({ themeId: themeIdProp, embedInEditor = false, content: conte
 
   const menuColors = content.menuColors || {}
   const heroColors = hero.colors || {}
+  const heroAnimation = hero.animation || content.heroAnimation
   const aboutColors = about.colors || {}
   const servicesColors = content.servicesColors || {}
   const portfolioColors = content.portfolioColors || {}
@@ -191,6 +192,8 @@ function PromoPage({ themeId: themeIdProp, embedInEditor = false, content: conte
     document.getElementById('servicios')?.scrollIntoView({ behavior: 'smooth' })
   }
 
+  const isHash = (href) => typeof href === 'string' && href.startsWith('#')
+
   return (
     <div className={`promo-page ${themeClass} ${onSectionClick ? 'promo-page-editable' : ''}`} style={styleVars}>
       <header
@@ -240,7 +243,13 @@ function PromoPage({ themeId: themeIdProp, embedInEditor = false, content: conte
 
       <main>
         {/* 1. Hero */}
-        <section className="promo-hero" ref={(el) => (sectionRefs.current[0] = el)} onClick={(e) => !e.target.closest('a') && onSectionClick?.('hero')} style={{ ...heroStyle, ...(onSectionClick ? { cursor: 'pointer' } : {}) }} role={onSectionClick ? 'button' : undefined}>
+        <section
+          className={`promo-hero ${heroAnimation === 'fishing' ? 'promo-hero--fishing' : ''}`}
+          ref={(el) => (sectionRefs.current[0] = el)}
+          onClick={(e) => !e.target.closest('a') && onSectionClick?.('hero')}
+          style={{ ...heroStyle, ...(onSectionClick ? { cursor: 'pointer' } : {}) }}
+          role={onSectionClick ? 'button' : undefined}
+        >
           <div className="promo-hero-bg" />
           <div className="promo-container promo-hero-inner">
             <div className="promo-hero-content">
@@ -256,7 +265,14 @@ function PromoPage({ themeId: themeIdProp, embedInEditor = false, content: conte
                     {hero.ctaText || 'Contáctanos'}
                   </Link>
                 ) : (
-                  <a href={hero.ctaHref || '#contacto'} onClick={(e) => { scrollToContact(e); onSectionClick?.('hero'); }} className="promo-btn promo-btn-primary">
+                  <a
+                    href={hero.ctaHref || '#contacto'}
+                    onClick={(e) => {
+                      if (isHash(hero.ctaHref || '#contacto')) scrollToContact(e)
+                      onSectionClick?.('hero')
+                    }}
+                    className="promo-btn promo-btn-primary"
+                  >
                     {hero.ctaText || 'Contáctanos'}
                   </a>
                 )}
@@ -265,7 +281,14 @@ function PromoPage({ themeId: themeIdProp, embedInEditor = false, content: conte
                     {hero.ctaSecondaryText || 'Ver servicios'}
                   </Link>
                 ) : (
-                  <a href={hero.ctaSecondaryHref || '#servicios'} onClick={(e) => { scrollToServices(e); onSectionClick?.('hero'); }} className="promo-btn promo-btn-secondary">
+                  <a
+                    href={hero.ctaSecondaryHref || '#servicios'}
+                    onClick={(e) => {
+                      if (isHash(hero.ctaSecondaryHref || '#servicios')) scrollToServices(e)
+                      onSectionClick?.('hero')
+                    }}
+                    className="promo-btn promo-btn-secondary"
+                  >
                     {hero.ctaSecondaryText || 'Ver servicios'}
                   </a>
                 )}

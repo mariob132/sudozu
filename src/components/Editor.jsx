@@ -93,7 +93,8 @@ function Editor({ onLogout, templateListOnly = false }) {
     if (template.templateType === 'promo') {
       setPromoTheme(template.theme || 'teal')
       setIsPromoPage(true)
-      setPromoContent(JSON.parse(JSON.stringify(DEFAULT_PROMO_CONTENT)))
+      const base = template.promoContent || DEFAULT_PROMO_CONTENT
+      setPromoContent(JSON.parse(JSON.stringify(base)))
       setSelectedPromoSection('hero')
       setElements([])
       setSelectedElement(null)
@@ -1063,7 +1064,7 @@ function TemplatePreview({ template, onUse, onClose }) {
             </div>
           </div>
           <div className="preview-content preview-content-promo">
-            <PromoPage themeId={template.theme} embedInEditor />
+            <PromoPage themeId={template.theme} embedInEditor content={template.promoContent || DEFAULT_PROMO_CONTENT} />
           </div>
         </div>
       </div>
